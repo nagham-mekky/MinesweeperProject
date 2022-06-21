@@ -59,7 +59,7 @@ for x in range(settings.GRID_WIDTH): #make this dependent on level
 
 Cell.randomize_mines()
 
-
-
+for c in Cell.all:
+    print(c.mine)
 #Run the window
 root.mainloop() #all code should be between this and root=Tk()

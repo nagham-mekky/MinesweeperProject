@@ -39,9 +39,11 @@ class Cell:
 
     @staticmethod
     def randomize_mines():
-        my_list = ['Farahat', 'Joshua', 'Raith']
-        picked = random.sample(my_list, 1)
-        print (picked)
+        #my_list = ['Farahat', 'Joshua', 'Raith']
+        picked_cells = random.sample(Cell.all, settings.MINES_COUNT) #Change 9 to value that is determined depending on difficulty
+        #print (picked_cells)
+        for picked_cell in picked_cells:
+            picked_cell.mine = True
 
 
     def __repr__(self):
