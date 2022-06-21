@@ -1,6 +1,9 @@
 from tkinter import *
 import settings
 import utils
+from cell import Cell
+
+
 def rgb_hack(rgb):
     return "#%02x%02x%02x" % rgb 
 #Instantiating window instance\
@@ -41,12 +44,20 @@ center_frame = Frame(
 
 center_frame.place(x=utils.width_p(25), y=utils.height_p(25))
 
-# button1 = Button(
-#     center_frame,
-#     bg = 'light blue',
-#     text = 'First Button'
-# )
-# button1.place(x=720,y=360)
+
+# Beginner, Intermediate and Expert.
+# width, height, mmines
+
+for x in range(settings.GRID_WIDTH): #make this dependent on level
+    for y in range (settings.GRID_HEIGHT):
+        c = Cell(x, y)
+        c.create_btn_obj(center_frame)
+        c.cell_btn_obj.grid(
+            column = x, row = y
+        )
+# print(Cell.all)
+
+Cell.randomize_mines()
 
 
 
