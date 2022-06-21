@@ -17,7 +17,7 @@ class Cell:
     def create_btn_obj(self, location):
         btn = Button(
             location, 
-            text=f"{self.x},{self.y}",
+            #text=f"{self.x},{self.y}",
             width = int(67.5/ settings.GRID_WIDTH),
             height = int(33.75 / settings.GRID_HEIGHT) #SEE IF U CAN MAKE MORE ACCUREATE
         )
@@ -29,13 +29,13 @@ class Cell:
     
     def left_click (self, event):
         print (event)
-        print ("LEFT")
+        #print ("LEFT")
         #print ("width ", (utils.width_p(75)))
         print( "height " , int(33.75 / settings.GRID_HEIGHT))
 
     def right_click (self, event):
         print (event)
-        print ("RIGHT")
+        #print ("RIGHT")
 
     @staticmethod
     def randomize_mines():
