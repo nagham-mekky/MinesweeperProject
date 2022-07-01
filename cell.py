@@ -2,6 +2,7 @@ from tkinter import Button
 import settings
 import utils
 import random
+from PIL import ImageTk, Image  
 
 class Cell:
     all = []
@@ -17,7 +18,7 @@ class Cell:
     def create_btn_obj(self, location):
         btn = Button(
             location, 
-            text=f"{self.x},{self.y}",
+            #text=f"{self.x},{self.y}",
             width = int(67.5/ settings.GRID_WIDTH),
             height = int(33.75 / settings.GRID_HEIGHT) #SEE IF U CAN MAKE MORE ACCUREATE
         )
@@ -31,6 +32,9 @@ class Cell:
         if (self.mine):
             self.show_mine()#end game, image of mine
         else:
+            if self.mines_surrounded == 0:
+                for cell_obj in self.surrounded_cells:
+                    cell_obj.show_cell() #check if a surrounding one is also 0
             self.show_cell()
         # print (event)
         # #print ("LEFT")
@@ -45,9 +49,9 @@ class Cell:
         for cell in Cell.all:
             if cell.x == x and cell.y == y:
                 return cell
-
-    def show_cell(self):
-        cellsSurrounding = [self.get_cell_by_axis(self.x - 1, self.y -1 ),
+    @property            
+    def surrounded_cells (self):
+        cells = [self.get_cell_by_axis(self.x - 1, self.y -1 ),
         self.get_cell_by_axis(self.x - 1, self.y),
         self.get_cell_by_axis(self.x - 1, self.y + 1),
         self.get_cell_by_axis(self.x, self.y - 1),
@@ -56,12 +60,36 @@ class Cell:
         self.get_cell_by_axis(self.x + 1, self.y + 1),
         self.get_cell_by_axis(self.x, self.y + 1)]
         
-        cellsSurrounding = [cell for cell in cellsSurrounding if cell is not None]
-        print(cellsSurrounding)
+        cells = [cell for cell in cells if cell is not None]
+        return(cells)
+
+    @property
+    def mines_surrounded (self):
+        counter = 0
+        for cell in self.surrounded_cells:
+            if cell.mine:
+                counter+=1
+        return counter
+
+
+    def show_cell(self):
+        self.cell_btn_obj.configure(text=self.mines_surrounded)
 
     def right_click (self, event):
         print (event)
         #print ("RIGHT")
+        # Position text in frame
+        ########FOR FLAG IMAGE
+        # Label(root, text = 'Position image on button', font =('<font_name>', <font_size>)).pack(side = TOP, padx = <x_coordinate#>, pady = <y_coordinate#>)
+
+        # # Create a photoimage object of the image in the path
+        # photo = PhotoImage(file = "flag.png")
+
+        # # Resize image to fit on button
+        # photoimage = photo.subsample(1, 2)
+
+        # # Position image on button
+        # Button(root, image = photoimage,).pack(side = BOTTOM, pady = <y_coordinate#>)
 
     @staticmethod
     def randomize_mines():

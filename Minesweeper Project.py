@@ -2,7 +2,7 @@ from tkinter import *
 import settings
 import utils
 from cell import Cell
-
+from PIL import ImageTk, Image  
 
 def rgb_hack(rgb):
     return "#%02x%02x%02x" % rgb 
