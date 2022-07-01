@@ -1,4 +1,4 @@
-from tkinter import Button
+from tkinter import Button, Label
 import settings
 import utils
 import random
@@ -6,6 +6,7 @@ from PIL import ImageTk, Image
 
 class Cell:
     all = []
+    cell_count_label_obj = None
     def __init__(self, x, y, mine=False):
         self.mine= mine
         self.cell_btn_obj = None
@@ -28,6 +29,15 @@ class Cell:
         self.cell_btn_obj = btn
         #make image for flag
     
+    @staticmethod
+    def create_cell_count_label (location):
+        lbl = Label (
+            location,
+            text = f"Cells Left:{settings.CELL_COUNT}"
+        )
+        Cell.cell_count_label_obj = lbl
+        #return lbl
+
     def left_click (self, event):
         if (self.mine):
             self.show_mine()#end game, image of mine
