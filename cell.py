@@ -3,10 +3,13 @@ import settings
 import utils
 import random
 from PIL import ImageTk, Image  
+def rgb_hack(rgb):
+    return "#%02x%02x%02x" % rgb 
 
 class Cell:
     all = []
     cell_count_label_obj = None
+    cell_count = settings.CELL_COUNT
     def __init__(self, x, y, mine=False):
         self.mine= mine
         self.cell_btn_obj = None
@@ -33,7 +36,10 @@ class Cell:
     def create_cell_count_label (location):
         lbl = Label (
             location,
-            text = f"Cells Left:{settings.CELL_COUNT}"
+            bg = rgb_hack((192, 192, 242)),
+            #fg = 'white',
+            text = f"Cells Left: {Cell.cell_count}",
+            font = ("", 30)
         )
         Cell.cell_count_label_obj = lbl
         #return lbl
@@ -83,7 +89,13 @@ class Cell:
 
 
     def show_cell(self):
+        Cell.cell_count -=1
         self.cell_btn_obj.configure(text=self.mines_surrounded)
+        #Replace the text of cell count label with new count
+        if Cell.cell_count_label_obj:
+            Cell.cell_count_label_obj.configure(
+                text = f"Cells Left: {Cell.cell_count}"
+            )
 
     def right_click (self, event):
         print (event)
