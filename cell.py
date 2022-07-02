@@ -1,17 +1,22 @@
-from tkinter import Button, Label
+#from tkinter import Button, Label
 import settings
 import utils
 import random
-from PIL import ImageTk, Image  
+from tkinter import * 
+from tkinter.ttk import *
+#import MinesweeperProject
+
 def rgb_hack(rgb):
     return "#%02x%02x%02x" % rgb 
-
+flagPic = PhotoImage(file = "flag.png")
 class Cell:
     all = []
     cell_count_label_obj = None
     cell_count = settings.CELL_COUNT
     def __init__(self, x, y, mine=False):
         self.mine= mine
+        self.is_opened = False
+        self.flag = False
         self.cell_btn_obj = None
         self.x = x
         self.y = y
@@ -89,29 +94,28 @@ class Cell:
 
 
     def show_cell(self):
-        Cell.cell_count -=1
-        self.cell_btn_obj.configure(text=self.mines_surrounded)
-        #Replace the text of cell count label with new count
-        if Cell.cell_count_label_obj:
-            Cell.cell_count_label_obj.configure(
-                text = f"Cells Left: {Cell.cell_count}"
-            )
+        if not self.is_opened:
+            Cell.cell_count -=1
+            self.cell_btn_obj.configure(text=self.mines_surrounded)
+            #Replace the text of cell count label with new count
+            if Cell.cell_count_label_obj:
+                Cell.cell_count_label_obj.configure(
+                    text = f"Cells Left: {Cell.cell_count}"
+                )
+        #Mark cell as opened
+        self.is_opened = True
 
     def right_click (self, event):
-        print (event)
+        #print (event)
+        if not self.flag:
+            self.cell_btn_obj.configure(
+                bg = 'orange'
+                #image = flagPic
+            )#.pack(side = TOP)
         #print ("RIGHT")
         # Position text in frame
         ########FOR FLAG IMAGE
-        # Label(root, text = 'Position image on button', font =('<font_name>', <font_size>)).pack(side = TOP, padx = <x_coordinate#>, pady = <y_coordinate#>)
-
-        # # Create a photoimage object of the image in the path
-        # photo = PhotoImage(file = "flag.png")
-
-        # # Resize image to fit on button
-        # photoimage = photo.subsample(1, 2)
-
-        # # Position image on button
-        # Button(root, image = photoimage,).pack(side = BOTTOM, pady = <y_coordinate#>)
+        
 
     @staticmethod
     def randomize_mines():
